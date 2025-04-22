@@ -6,11 +6,11 @@ import numpy as np
 from wordcloud import WordCloud
 
 # Set OpenAI API Key
-api_key = os.getenv("OPENAI_API_KEY")  # Environment variable (no spaces!)
+api_key = os.getenv("OPENAI_API_KEY")
 if not api_key:
     st.error("❌ OpenAI API key is missing! Set it as an environment variable on Render.")
 
-openai.api_key = api_key  # Correct way to set key
+openai.api_key = api_key
 
 # Function to Get Music Recommendations
 def get_mood_based_music_recommendation(user_mood):
@@ -23,12 +23,6 @@ def get_mood_based_music_recommendation(user_mood):
             ]
         )
         return response.choices[0].message.content.strip().split("\n")
-    except openai.error.OpenAIError as e:
-        return [f"❌ OpenAI API error: {e}"]
-    except openai.error.RateLimitError:
-        return ["⚠️ API rate limit exceeded. Try again later."]
-    except openai.error.AuthenticationError:
-        return ["❌ Invalid OpenAI API key. Check your key and try again."]
     except Exception as e:
         return [f"❌ An unexpected error occurred: {e}"]
 
